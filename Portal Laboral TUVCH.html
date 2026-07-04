@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portal Laboral - TUVCH</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f4f6fb;
+      color: #222;
+    }
+
+    header {
+      background: #1e2a4a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 26px;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      background: #14203a;
+      padding: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: transparent;
+      border: 1px solid #ffffff40;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    nav button:hover {
+      background: white;
+      color: #14203a;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 25px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+      color: #1e2a4a;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+
+    .job {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 12px;
+      background: #f9fbff;
+    }
+
+    .job h3 {
+      color: #1e2a4a;
+      margin-bottom: 8px;
+    }
+
+    .job p {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .btn {
+      margin-top: 10px;
+      background: #1e2a4a;
+      border: none;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #2e3f6c;
+    }
+
+    .btn-danger {
+      background: #b10000;
+    }
+
+    .btn-danger:hover {
+      background: #d10000;
+    }
+
+    .btn-warning {
+      background: #b87a00;
+    }
+
+    .btn-warning:hover {
+      background: #d49200;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input, select, textarea {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    form button {
+      background: #1e2a4a;
+      border: none;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    form button:hover {
+      background: #2e3f6c;
+    }
+
+    .success {
+      background: #d4edda;
+      padding: 10px;
+      border-radius: 8px;
+      color: #155724;
+      margin-top: 10px;
+      border: 1px solid #c3e6cb;
+    }
+
+    .warning {
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 8px;
+      color: #856404;
+      margin-top: 10px;
+      border: 1px solid #ffeeba;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #14203a;
+      color: white;
+      margin-top: 30px;
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    table th {
+      background: #1e2a4a;
+      color: white;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .edit-form {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      background: #f9fbff;
+    }
+
+    .user-info {
+      text-align: center;
+      padding: 10px;
+      background: #e9eefc;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #1e2a4a;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Portal laboral y Prácticas Profesionales</h1>
+  <p>Tecnológico Universitario del Valle de Chalco (TUVCH)</p>
+</header>
+
+<nav>
+  <button onclick="showSection('inicio')">Inicio</button>
+  <button onclick="showSection('vacantes')">Vacantes</button>
+  <button onclick="showSection('registro')">Registro</button>
+  <button onclick="showSection('login')">Login</button>
+
+  <!-- Botón Admin oculto por defecto -->
+  <button id="adminBtn" class="hidden" onclick="showSection('admin')">Administrador</button>
+
+  <!-- Botón Logout oculto por defecto -->
+  <button id="logoutBtn" class="btn-danger hidden" onclick="logout()">Cerrar Sesión</button>
+</nav>
+
+<div class="container">
+
+  <div id="userInfo" class="user-info hidden"></div>
+
+  <!-- INICIO -->
+  <div id="inicio" class="card">
+    <h2>Bienvenido</h2>
+    <p>
+      Bienvenido al portal institucional del Tecnológico Universitario del Valle de Chalco (TUVCH).
+      Aquí podrás consultar vacantes disponibles, registrarte y postularte.
+    </p>
+    <br>
+    <p><b>Funciones principales:</b></p>
+    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+      <li>Consulta de vacantes</li>
+      <li>Registro e inicio de sesión</li>
+      <li>Postulación a oportunidades</li>
+      <li>Gestión de vacantes (solo administrador)</li>
+    </ul>
+  </div>
+
+  <!-- VACANTES -->
+  <div id="vacantes" class="card hidden">
+    <h2>Vacantes Disponibles</h2>
+
+    <div style="margin-bottom: 15px;">
+      <input type="text" id="searchInput" placeholder="Buscar vacante..." onkeyup="filterJobs()">
+    </div>
+
+    <div id="jobsContainer" class="grid"></div>
+  </div>
+
+  <!-- REGISTRO -->
+  <div id="registro" class="card hidden">
+    <h2>Registro de Estudiantes</h2>
+
+    <form onsubmit="registerUser(event)">
+      <input type="text" id="regName" placeholder="Nombre completo" required>
+      <input type="text" id="regMatricula" placeholder="Matrícula" required>
+      <input type="email" id="regEmail" placeholder="Correo institucional" required>
+
+      <select id="regCarrera" required>
+  <option value="">Selecciona tu carrera / especialidad</option>
+  <option>Técnico en Informática</option>
+  <option>Técnico en Programación</option>
+  <option>Técnico en Contabilidad</option>
+  <option>Técnico en Administración</option>
+  <option>Técnico en Laboratorista Clínico</option>
+  <option>Técnico en Electrónica</option>
+  <option>Técnico en Electricidad</option>
+  <option>Técnico en Mecánica Industrial</option>
+  <option>Técnico en Diseño Gráfico</option>
+  <option>Técnico en Recursos Humanos</option>
+<option>ingenieria en sistemas</option>
+<option>Psicologia</option>
+<option>Derecho</option>
+</select>
+
+      <input type="password" id="regPassword" placeholder="Contraseña" required>
+      <button type="submit">Registrarme</button>
+    </form>
+
+    <div id="regMessage"></div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="login" class="card hidden">
+    <h2>Inicio de Sesión</h2>
+
+    <form onsubmit="loginUser(event)">
+      <input type="email" id="loginEmail" placeholder="Correo" required>
+      <input type="password" id="loginPassword" placeholder="Contraseña" required>
+      <button type="submit">Iniciar Sesión</button>
+    </form>
+
+    <div id="loginMessage"></div>
+
+    <p style="margin-top:15px; font-size:13px; color:#444;">
+      *El acceso de administrador está restringido y solo personal autorizado puede ingresar.
+    </p>
+  </div>
+
+  <!-- ADMIN -->
+  <div id="admin" class="card hidden">
+    <h2>Panel Administrador</h2>
+    <p><b>Acceso restringido.</b> Gestión de vacantes y revisión de postulaciones.</p>
+
+    <br>
+
+    <h3 style="color:#1e2a4a;">Agregar Nueva Vacante</h3>
+    <form onsubmit="addJob(event)">
+      <input type="text" id="jobTitle" placeholder="Título de la vacante" required>
+      <input type="text" id="jobCompany" placeholder="Empresa / Institución" required>
+
+      <select id="jobType" required>
+        <option value="">Tipo de vacante</option>
+        <option>Prácticas Profesionales</option>
+        <option>Estadias</option>
+        <option>Empleo Medio Tiempo</option>
+<option>Empleo Tiempo Completo</option>
+      </select>
+
+      <input type="text" id="jobLocation" placeholder="Ubicación" required>
+      <textarea id="jobDescription" placeholder="Descripción de la vacante" required></textarea>
+
+      <button type="submit">Agregar Vacante</button>
+    </form>
+
+    <div id="adminMessage"></div>
+
+    <hr style="margin: 25px 0;">
+
+    <h3 style="color:#1e2a4a;">Gestionar Vacantes</h3>
+    <div id="jobsAdminTable"></div>
+
+    <div id="editJobSection" class="edit-form hidden">
+      <h3 style="color:#1e2a4a;">Editar Vacante</h3>
+
+      <form onsubmit="saveEditJob(event)">
+        <input type="hidden" id="editIndex">
+
+        <input type="text" id="editTitle" placeholder="Título" required>
+        <input type="text" id="editCompany" placeholder="Empresa" required>
+
+        <select id="editType" required>
+          <option>Prácticas Profesionales</option>
+          <option>Estadias</option>
+          <option>Empleo Medio Tiempo</option>
+          <option>Empleo Tiempo Completo</option>
+        </select>
+
+        <input type="text" id="editLocation" placeholder="Ubicación" required>
+        <textarea id="editDescription" placeholder="Descripción" required></textarea>
+
+        <button type="submit">Guardar Cambios</button>
+        <button type="button" class="btn btn-danger" onclick="cancelEdit()">Cancelar</button>
+      </form>
+    </div>
+
+    <hr style="margin: 25px 0;">
+
+    <h3 style="color:#1e2a4a;">Historial de Postulaciones</h3>
+    <div id="applicationsList"></div>
+  </div>
+
+</div>
+
+<footer>
+  Bolsa de Trabajo TUVCH © 2026 
+</footer>
+
+<script>
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  let jobs = JSON.parse(localStorage.getItem("jobs")) || [
+    {
+      title: "Prácticas Profesionales",
+      company: "TUVCH",
+      type: "Prácticas Profesionales",
+      location: "Laboratorio de Cómputo",
+      description: "Apoyo en mantenimiento preventivo, instalación de software y soporte a estudiantes."
+    },
+    {
+      title: "Estadias ",
+      company: "Dirección Escolar TUVCH",
+      type: "Estadias",
+      location: "Edificio A",
+      description: "Captura de datos, apoyo en archivos, atención básica a estudiantes."
+    },
+    {
+      title: "Diseñador de Contenido Digital",
+      company: "Agencia Creativa XYZ",
+      type: "Empleo Medio Tiempo",
+      location: "CDMX",
+      description: "Creación de contenido para redes sociales, edición básica y marketing digital."
+    }
+  ];
+
+  let applications = JSON.parse(localStorage.getItem("applications")) || [];
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+
+  function updateNavbar() {
+    const logoutBtn = document.getElementById("logoutBtn");
+    const adminBtn = document.getElementById("adminBtn");
+    const userInfo = document.getElementById("userInfo");
+
+    if(currentUser) {
+      logoutBtn.classList.remove("hidden");
+      userInfo.classList.remove("hidden");
+
+      if(currentUser.role === "admin") {
+        adminBtn.classList.remove("hidden");
+        userInfo.innerHTML = `Sesión iniciada como: <b>Administrador</b>`;
+      } else {
+        adminBtn.classList.add("hidden");
+        userInfo.innerHTML = `Sesión iniciada como: <b>${currentUser.name}</b> (${currentUser.carrera})`;
+      }
+
+    } else {
+      logoutBtn.classList.add("hidden");
+      adminBtn.classList.add("hidden");
+      userInfo.classList.add("hidden");
+    }
+  }
+
+  function showSection(sectionId) {
+    const sections = ["inicio", "vacantes", "registro", "login", "admin"];
+    sections.forEach(id => document.getElementById(id).classList.add("hidden"));
+
+    if(sectionId === "admin") {
+      if(!currentUser || currentUser.role !== "admin") {
+        alert("Acceso denegado. Solo administrador.");
+        showSection("login");
+        return;
+      }
+    }
+
+    document.getElementById(sectionId).classList.remove("hidden");
+
+    if(sectionId === "vacantes") renderJobs();
+    if(sectionId === "admin") {
+      renderApplications();
+      renderJobsAdmin();
+    }
+  }
+
+  function registerUser(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("regName").value;
+    const matricula = document.getElementById("regMatricula").value;
+    const email = document.getElementById("regEmail").value;
+    const carrera = document.getElementById("regCarrera").value;
+    const password = document.getElementById("regPassword").value;
+
+    if(users.find(u => u.email === email)) {
+      document.getElementById("regMessage").innerHTML =
+        `<div class="warning">Este correo ya está registrado.</div>`;
+      return;
+    }
+
+    users.push({ name, matricula, email, carrera, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    document.getElementById("regMessage").innerHTML =
+      `<div class="success">Registro exitoso. Ahora puedes iniciar sesión.</div>`;
+
+    event.target.reset();
+  }
+
+  function loginUser(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    // ADMIN (oculto, no se muestra en pantalla)
+    if(email === "admin@tuvch.com" && password === "Admin1234") {
+      currentUser = { name: "Administrador", email: email, role: "admin" };
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      document.getElementById("loginMessage").innerHTML =
+        `<div class="success">Acceso autorizado.</div>`;
+      updateNavbar();
+      showSection("admin");
+      return;
+    }
+
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if(!user) {
+      document.getElementById("loginMessage").innerHTML =
+        `<div class="warning">Correo o contraseña incorrectos.</div>`;
+      return;
+    }
+
+    currentUser = { ...user, role: "student" };
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+    document.getElementById("loginMessage").innerHTML =
+      `<div class="success">Bienvenido/a ${user.name}.</div>`;
+
+    updateNavbar();
+    showSection("vacantes");
+  }
+
+  function logout() {
+    localStorage.removeItem("currentUser");
+    currentUser = null;
+    alert("Sesión cerrada.");
+    updateNavbar();
+    showSection("inicio");
+  }
+
+  function renderJobs() {
+    const container = document.getElementById("jobsContainer");
+    container.innerHTML = "";
+
+    jobs.forEach((job, index) => {
+      container.innerHTML += `
+        <div class="job">
+          <h3>${job.title}</h3>
+          <p><b>Empresa:</b> ${job.company}</p>
+          <p><b>Tipo:</b> ${job.type}</p>
+          <p><b>Ubicación:</b> ${job.location}</p>
+          <p><b>Descripción:</b> ${job.description}</p>
+          <button class="btn" onclick="applyJob(${index})">Postularme</button>
+        </div>
+      `;
+    });
+
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+  }
+
+  function filterJobs() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const container = document.getElementById("jobsContainer");
+    container.innerHTML = "";
+
+    const filtered = jobs.filter(job =>
+      job.title.toLowerCase().includes(input) ||
+      job.company.toLowerCase().includes(input) ||
+      job.type.toLowerCase().includes(input)
+    );
+
+    filtered.forEach((job, index) => {
+      container.innerHTML += `
+        <div class="job">
+          <h3>${job.title}</h3>
+          <p><b>Empresa:</b> ${job.company}</p>
+          <p><b>Tipo:</b> ${job.type}</p>
+          <p><b>Ubicación:</b> ${job.location}</p>
+          <p><b>Descripción:</b> ${job.description}</p>
+          <button class="btn" onclick="applyJob(${index})">Postularme</button>
+        </div>
+      `;
+    });
+  }
+
+  function applyJob(index) {
+    if(!currentUser || currentUser.role !== "student") {
+      alert("Debes iniciar sesión como estudiante para postularte.");
+      return;
+    }
+
+    const job = jobs[index];
+
+    applications.push({
+      student: currentUser.name,
+      matricula: currentUser.matricula,
+      carrera: currentUser.carrera,
+      email: currentUser.email,
+      jobTitle: job.title,
+      company: job.company,
+      date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("applications", JSON.stringify(applications));
+    alert("Postulación realizada con éxito.");
+  }
+
+  function addJob(event) {
+    event.preventDefault();
+
+    const title = document.getElementById("jobTitle").value;
+    const company = document.getElementById("jobCompany").value;
+    const type = document.getElementById("jobType").value;
+    const location = document.getElementById("jobLocation").value;
+    const description = document.getElementById("jobDescription").value;
+
+    jobs.push({ title, company, type, location, description });
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+
+    document.getElementById("adminMessage").innerHTML =
+      `<div class="success">Vacante agregada correctamente.</div>`;
+
+    event.target.reset();
+    renderJobs();
+    renderJobsAdmin();
+  }
+
+  function renderJobsAdmin() {
+    const tableContainer = document.getElementById("jobsAdminTable");
+
+    if(!jobs.length) {
+      tableContainer.innerHTML = "<p>No hay vacantes registradas.</p>";
+      return;
+    }
+
+    let tableHTML = `
+      <table>
+        <tr>
+          <th>#</th>
+          <th>Título</th>
+          <th>Empresa</th>
+          <th>Tipo</th>
+          <th>Ubicación</th>
+          <th>Acciones</th>
+        </tr>
+    `;
+
+    jobs.forEach((job, index) => {
+      tableHTML += `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${job.title}</td>
+          <td>${job.company}</td>
+          <td>${job.type}</td>
+          <td>${job.location}</td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-warning" onclick="editJob(${index})">Editar</button>
+              <button class="btn btn-danger" onclick="deleteJob(${index})">Eliminar</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+
+    tableHTML += "</table>";
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function deleteJob(index) {
+    if(confirm("¿Seguro que deseas eliminar esta vacante?")) {
+      jobs.splice(index, 1);
+      localStorage.setItem("jobs", JSON.stringify(jobs));
+      renderJobs();
+      renderJobsAdmin();
+      alert("Vacante eliminada correctamente.");
+    }
+  }
+
+  function editJob(index) {
+    const job = jobs[index];
+
+    document.getElementById("editIndex").value = index;
+    document.getElementById("editTitle").value = job.title;
+    document.getElementById("editCompany").value = job.company;
+    document.getElementById("editType").value = job.type;
+    document.getElementById("editLocation").value = job.location;
+    document.getElementById("editDescription").value = job.description;
+
+    document.getElementById("editJobSection").classList.remove("hidden");
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  function saveEditJob(event) {
+    event.preventDefault();
+
+    const index = document.getElementById("editIndex").value;
+
+    jobs[index] = {
+      title: document.getElementById("editTitle").value,
+      company: document.getElementById("editCompany").value,
+      type: document.getElementById("editType").value,
+      location: document.getElementById("editLocation").value,
+      description: document.getElementById("editDescription").value
+    };
+
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+
+    alert("Vacante actualizada correctamente.");
+
+    document.getElementById("editJobSection").classList.add("hidden");
+    renderJobs();
+    renderJobsAdmin();
+  }
+
+  function cancelEdit() {
+    document.getElementById("editJobSection").classList.add("hidden");
+  }
+
+  function renderApplications() {
+    const list = document.getElementById("applicationsList");
+    list.innerHTML = "";
+
+    if(applications.length === 0) {
+      list.innerHTML = `<p>No hay postulaciones registradas.</p>`;
+      return;
+    }
+
+    applications.forEach(app => {
+      list.innerHTML += `
+        <div class="job" style="margin-top:10px;">
+          <p><b>Alumno:</b> ${app.student}</p>
+          <p><b>Matrícula:</b> ${app.matricula}</p>
+          <p><b>Carrera:</b> ${app.carrera}</p>
+          <p><b>Correo:</b> ${app.email}</p>
+          <p><b>Vacante:</b> ${app.jobTitle}</p>
+          <p><b>Empresa:</b> ${app.company}</p>
+          <p><b>Fecha:</b> ${app.date}</p>
+        </div>
+      `;
+    });
+  }
+
+  // Al cargar la página
+  updateNavbar();
+  showSection("inicio");
+</script>
+
+</body>
+</html>
